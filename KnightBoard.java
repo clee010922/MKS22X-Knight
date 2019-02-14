@@ -39,9 +39,12 @@ public class KnightBoard {
   }
 
   /*
+  Modifies the board by labeling the moves from 1 (at startingRow,startingCol)
+  up to the area of the board in proper knight move steps.
   @throws IllegalStateException when the board contains non-zero values.
   @throws IllegalArgumentException when either parameter is negative
   or out of bounds.
+  @returns true when the board is solvable from the specified starting position
   */
   public boolean solve(int startingRow, int startingCol) {
     for (int r = 0; r < board.length; r++) {
@@ -50,21 +53,39 @@ public class KnightBoard {
           throw new IllegalStateException();
       }
     }
-    if (startingRow < 0 || startingCol < 0)
+    if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length)
       throw new IllegalArgumentException();
+    return solveH(startingRow, startingCol, 1);
   }
 
   /*
   @throws IllegalStateException when the board contains non-zero values.
   @throws IllegalArgumentException when either parameter is negative
   or out of bounds.
+  @returns the number of solutions from the starting position specified
   */
   public int countSolutions(int startingRow, int startingCol) {
 
   }
 
-  private boolean solveH(int row, int col, int level) {
-    //level is the # of the knight
+  private boolean solveH(int row, int col, int moveNumber) {
+    board[row][col] = moveNumber;
+    if (row-2 >= 0 && col+1 < board[0].length)
+      return solveH(row-2, col+1, moveNumber+1);
+    if (row-1 >= 0 && col+2 < board[0].length)
+      return solveH(row-1, col+2, moveNumber+1);
+    if (row+1 < board.length && col+2 < board[0].length)
+      return solveH(row+1, col+2, moveNumber+1);
+    if (row+2 < board.length && col+1 < board[0].length)
+      return solveH(row+2, col+2, moveNumber+1);
+    if (row+2 < board.length && col-1 >= 0)
+      return solveH(row+2, col-1, moveNumber+1);
+    if (row+1 < board.length && col-2 >= 0)
+      return solveH(row+1, col-2, moveNumber+1);
+    if (row-1 >= 0 && col-2 >= 0)
+      return solveH(row-1, col-2, moveNumber+1);
+    if (row-2 >= 0 && col-1 >= 0)
+      return solveH(row-2, col-1, moveNumber+1);
   }
 
   /*
