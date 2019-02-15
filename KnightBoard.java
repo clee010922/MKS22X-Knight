@@ -64,12 +64,15 @@ public class KnightBoard {
   or out of bounds.
   @returns the number of solutions from the starting position specified
   */
-  public int countSolutions(int startingRow, int startingCol) {
+  //public int countSolutions(int startingRow, int startingCol) {
 
-  }
+  //}
 
   private boolean solveH(int row, int col, int moveNumber) {
     board[row][col] = moveNumber;
+    int[] moves = {1, 2, 1, -2, -1, 2, -1, -2, 2, 1, 2, -1, -2, 1, -2, -1};
+    
+    /*
     if (row-2 >= 0 && col+1 < board[0].length)
       return solveH(row-2, col+1, moveNumber+1);
     if (row-1 >= 0 && col+2 < board[0].length)
@@ -86,6 +89,7 @@ public class KnightBoard {
       return solveH(row-1, col-2, moveNumber+1);
     if (row-2 >= 0 && col-1 >= 0)
       return solveH(row-2, col-1, moveNumber+1);
+      */
   }
 
   /*
