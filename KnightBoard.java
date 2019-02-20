@@ -75,12 +75,12 @@ public class KnightBoard {
     int[] moves = {1, 2, 1, -2, -1, 2, -1, -2, 2, 1, 2, -1, -2, 1, -2, -1};
     if (moveNumber == board.length * board[0].length + 1)
       return true;
-    for (int i = 0; i < moves.length-2; i+2) {
+    for (int i = 0; i < moves.length-2; i+=2) {
       if (addKnight(row, col, moveNumber)) {
         if (solveH(row+moves[i], col+moves[i+1], moveNumber+1)) {
           return true;
         }
-        else removeKnight(row, col, moveNumber);
+        else removeKnight(row, col);
       }
     }
     return false;
@@ -116,7 +116,7 @@ public class KnightBoard {
   public boolean removeKnight(int row, int col) {
     if (row < 0 || row > board.length || col < 0 || col > board[0].length)
       return false;
-    if (bard[row][col] = 0)
+    if (board[row][col] == 0)
       return false;
     board[row][col] = 0;
     return true;
