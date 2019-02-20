@@ -84,24 +84,6 @@ public class KnightBoard {
     }
     return false;
   }
-    /*
-    if (row-2 >= 0 && col+1 < board[0].length)
-      return solveH(row-2, col+1, moveNumber+1);
-    if (row-1 >= 0 && col+2 < board[0].length)
-      return solveH(row-1, col+2, moveNumber+1);
-    if (row+1 < board.length && col+2 < board[0].length)
-      return solveH(row+1, col+2, moveNumber+1);
-    if (row+2 < board.length && col+1 < board[0].length)
-      return solveH(row+2, col+2, moveNumber+1);
-    if (row+2 < board.length && col-1 >= 0)
-      return solveH(row+2, col-1, moveNumber+1);
-    if (row+1 < board.length && col-2 >= 0)
-      return solveH(row+1, col-2, moveNumber+1);
-    if (row-1 >= 0 && col-2 >= 0)
-      return solveH(row-1, col-2, moveNumber+1);
-    if (row-2 >= 0 && col-1 >= 0)
-      return solveH(row-2, col-1, moveNumber+1);
-      */
 
   public boolean addKnight(int row, int col, int moveNumber) {
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length)
