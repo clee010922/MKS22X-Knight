@@ -55,7 +55,10 @@ public class KnightBoard {
     }
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length)
       throw new IllegalArgumentException();
-    return solveH(startingRow, startingCol, 1);
+    if (solveH(startingRow, startingCol, 1))
+      return true;
+    else clear();
+    return false;
   }
 
   /*
@@ -69,9 +72,18 @@ public class KnightBoard {
   //}
 
   private boolean solveH(int row, int col, int moveNumber) {
-    board[row][col] = moveNumber;
     int[] moves = {1, 2, 1, -2, -1, 2, -1, -2, 2, 1, 2, -1, -2, 1, -2, -1};
-
+    if (moveNumber == board.length * board[0].length + 1)
+      return true;
+    for (int i = 0; i < moves.length-2; i+2) {
+      if (addKnight(row, col, moveNumber)) {
+        if (solveH(row+moves[i], col+moves[i+1], moveNumber+1)) {
+          return true;
+        }
+        else removeKnight(row, col, moveNumber);
+      }
+    }
+    return false;
     /*
     if (row-2 >= 0 && col+1 < board[0].length)
       return solveH(row-2, col+1, moveNumber+1);
@@ -93,6 +105,8 @@ public class KnightBoard {
   }
 
   public boolean addKnight(int row, int col, int moveNumber) {
+    if (row < 0 || row > board.length || col < 0 || col > board[0].length)
+      return false;
     if (board[row][col] != 0)
       return false;
     board[row][col] = moveNumber;
@@ -100,6 +114,8 @@ public class KnightBoard {
   }
 
   public boolean removeKnight(int row, int col) {
+    if (row < 0 || row > board.length || col < 0 || col > board[0].length)
+      return false;
     if (bard[row][col] = 0)
       return false;
     board[row][col] = 0;
