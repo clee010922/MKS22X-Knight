@@ -71,7 +71,7 @@ public class KnightBoard {
   private boolean solveH(int row, int col, int moveNumber) {
     board[row][col] = moveNumber;
     int[] moves = {1, 2, 1, -2, -1, 2, -1, -2, 2, 1, 2, -1, -2, 1, -2, -1};
-    
+
     /*
     if (row-2 >= 0 && col+1 < board[0].length)
       return solveH(row-2, col+1, moveNumber+1);
@@ -90,6 +90,20 @@ public class KnightBoard {
     if (row-2 >= 0 && col-1 >= 0)
       return solveH(row-2, col-1, moveNumber+1);
       */
+  }
+
+  public boolean addKnight(int row, int col, int moveNumber) {
+    if (board[row][col] != 0)
+      return false;
+    board[row][col] = moveNumber;
+    return true;
+  }
+
+  public boolean removeKnight(int row, int col) {
+    if (bard[row][col] = 0)
+      return false;
+    board[row][col] = 0;
+    return true;
   }
 
   /*
