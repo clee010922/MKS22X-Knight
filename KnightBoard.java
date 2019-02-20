@@ -55,10 +55,7 @@ public class KnightBoard {
     }
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length)
       throw new IllegalArgumentException();
-    if (solveH(startingRow, startingCol, 1))
-      return true;
-    else clear();
-    return false;
+    return solveH(startingRow, startingCol, 1);
   }
 
   /*
@@ -72,18 +69,21 @@ public class KnightBoard {
   //}
 
   private boolean solveH(int row, int col, int moveNumber) {
-    int[] moves = {1, 2, 1, -2, -1, 2, -1, -2, 2, 1, 2, -1, -2, 1, -2, -1};
+    int[][] moves = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
     if (moveNumber == board.length * board[0].length + 1)
       return true;
-    for (int i = 0; i < moves.length-2; i+=2) {
-      if (addKnight(row, col, moveNumber)) {
-        if (solveH(row+moves[i], col+moves[i+1], moveNumber+1)) {
-          return true;
+    for (int i = 0; i < moves.length; i++) {
+      for (int j = 0; j < moves[i].length-1; j++) {
+        if (addKnight(row, col, moveNumber)) {
+          if (solveH(row+moves[i][j], col+moves[i][j+1], moveNumber+1)) {
+            return true;
+          }
+          else removeKnight(row, col);
         }
-        else removeKnight(row, col);
       }
     }
     return false;
+  }
     /*
     if (row-2 >= 0 && col+1 < board[0].length)
       return solveH(row-2, col+1, moveNumber+1);
@@ -102,10 +102,9 @@ public class KnightBoard {
     if (row-2 >= 0 && col-1 >= 0)
       return solveH(row-2, col-1, moveNumber+1);
       */
-  }
 
   public boolean addKnight(int row, int col, int moveNumber) {
-    if (row < 0 || row > board.length || col < 0 || col > board[0].length)
+    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length)
       return false;
     if (board[row][col] != 0)
       return false;
@@ -122,12 +121,13 @@ public class KnightBoard {
     return true;
   }
 
-  /*
+
   public static void main(String[] args) {
-    KnightBoard knight = new KnightBoard(3, 3);
+    KnightBoard knight = new KnightBoard(6, 6);
+    System.out.println(knight.solve(2, 4));
     System.out.println(knight);
   }
-  */
+
 
 
 }
