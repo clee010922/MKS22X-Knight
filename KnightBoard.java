@@ -64,9 +64,33 @@ public class KnightBoard {
   or out of bounds.
   @returns the number of solutions from the starting position specified
   */
-  //public int countSolutions(int startingRow, int startingCol) {
+  public int countSolutions(int startingRow, int startingCol) {
+    for (int r = 0; r < board.length; r++) {
+      for (int c = 0; c < board[0].length; c++) {
+        if (board[r][c] != 0)
+          throw new IllegalStateException();
+      }
+    }
+    if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length)
+      throw new IllegalArgumentException();
+    return countSolutionsH(startingRow, startingCol, 1);
+  }
 
-  //}
+  private int countSolutionsH(int row, int col, int moveNumber) {
+    int numSolutions = 0;
+    int[][] moves = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
+    if (moveNumber == board.length * board[0].length + 1)
+      return 1;
+    for (int i = 0; i < moves.length; i++) {
+      for (int j = 0; j < moves[i].length-1; j++) {
+        if (addKnight(row, col, moveNumber)) {
+          numSolutions += countSolutionsH(row+moves[i][j], col+moves[i][j+1], moveNumber+1);
+          removeKnight(row, col);
+        }
+      }
+    }
+    return numSolutions;
+  }
 
   private boolean solveH(int row, int col, int moveNumber) {
     int[][] moves = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
@@ -105,9 +129,10 @@ public class KnightBoard {
 
 
   public static void main(String[] args) {
-    KnightBoard knight = new KnightBoard(6, 6);
-    System.out.println(knight.solve(2, 4));
-    System.out.println(knight);
+    KnightBoard knight = new KnightBoard(4, 4);
+    //System.out.println(knight.solve(0, 0));
+    //System.out.println(knight);
+    System.out.println(knight.countSolutions(2, 1));
   }
 
 
