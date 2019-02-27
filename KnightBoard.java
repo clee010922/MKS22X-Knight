@@ -88,15 +88,16 @@ public class KnightBoard {
   private boolean solveH(int r, int c, int moveNumber) {
     if (moveNumber == board.length * board[0].length + 1)
       return true;
-    int[][] tryMoves = sortMoves(r, c);
-    for (int i = 0; i < tryMoves.length; i++){
-      board[r][c] = moveNumber;
-      if (solveH(r+tryMoves[i][0], c+tryMoves[i][1], moveNumber+1))
-        return true;
-      board[r][c] = 0;
-   }
-   return false;
- }
+    if (addKnight(r, c, moveNumber)) {
+      int[][] outgoingMoves = sortMoves(r, c);
+      for (int i = 0; i < outgoingMoves.length; i++) {
+        if (solveH(r+outgoingMoves[i][0], c+outgoingMoves[i][1], moveNumber+1))
+          return true;
+      }
+      removeKnight(r, c);
+    }
+    return false;
+  }
 
   public void clear() {
     for (int r = 0; r < board.length; r++) {
