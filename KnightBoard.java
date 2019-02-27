@@ -26,6 +26,26 @@ public class KnightBoard {
     }
   }
 
+  public void sortMoves(int r, int c) {
+    int[][] allMoves = new int[opt[r][c]][2];
+    int current = 0;
+    for (int i = 0; i < moves.length; i++) {
+      if (!(r+moves[i][0] < 0 || r+moves[i][0] >= opt.length || c+moves[i][1] < 0 || c+moves[i][1] >= opt[0].length)) {
+        allMoves[current] = moves[i];
+        current++;
+      }
+    }
+    int temp = 0;
+    for (int i = 1; i < allMoves.length; i++ {
+      temp = opt[r+allMoves[i][0]][c+allMoves[i][1]];
+      while (i > 0 && temp < opt[r+allMoves[i-1][0]][c+allMoves[i-1][1]]) {
+        allMoves[i] = allMoves[i-1];
+        i--;
+      }
+      allMoves[i] = temp;
+    }
+  }
+
   public void clear() {
     for (int r = 0; r < board.length; r++) {
       for (int c = 0; c < board[0].length; c++) {
