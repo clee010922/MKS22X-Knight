@@ -46,6 +46,32 @@ public class KnightBoard {
     return allMoves;
   }
 
+  public boolean addKnight(int r, int c, int moveNumber) {
+    if (r < 0 || r >= board.length || c < 0 || c >= board[0].length)
+      return false;
+    if (board[r][c] != 0)
+      return false;
+    board[r][c] = moveNumber;
+    for (int i = 0; i < moves.length; i++) {
+      if (!(r+moves[i][0] < 0 || r+moves[i][0] >= opt.length || c+moves[i][1] < 0 || c+moves[i][1] >= opt[0].length))
+        opt[r+moves[i][0]][c+moves[i][1]]--;
+    }
+    return true;
+  }
+
+  public boolean removeKnight(int r, int c) {
+    if (r < 0 || r > board.length || c < 0 || c > board[0].length)
+      return false;
+    if (board[r][c] == 0)
+      return false;
+    board[r][c] = 0;
+    for (int i = 0; i < moves.length; i++) {
+      if (!(r+moves[i][0] < 0 || r+moves[i][0] >= opt.length || c+moves[i][1] < 0 || c+moves[i][1] >= opt[0].length))
+        opt[r+moves[i][0]][c+moves[i][1]]++;
+    }
+    return true;
+  }
+
   public boolean solve(int startingRow, int startingCol) {
     for (int r = 0; r < board.length; r++) {
       for (int c = 0; c < board[0].length; c++) {
@@ -62,17 +88,15 @@ public class KnightBoard {
   private boolean solveH(int r, int c, int moveNumber) {
     if (moveNumber == board.length * board[0].length + 1)
       return true;
-    int[][] outgoingMoves = sortMoves(r, c);
-    for (int i = 0; i < outgoingMoves.length; i++) {
+    int[][] tryMoves = sortMoves(r, c);
+    for (int i = 0; i < tryMoves.length; i++){
       board[r][c] = moveNumber;
-      opt[r][c]--;
-      if (solveH(r+outgoingMoves[i][0], c+outgoingMoves[i][1], moveNumber+1))
+      if (solveH(r+tryMoves[i][0], c+tryMoves[i][1], moveNumber+1))
         return true;
       board[r][c] = 0;
-      opt[r][c]++;
-    }
-    return false;
-  }
+   }
+   return false;
+ }
 
   public void clear() {
     for (int r = 0; r < board.length; r++) {
@@ -187,6 +211,7 @@ public class KnightBoard {
   }
   */
 
+  /*
   public boolean addKnight(int row, int col, int moveNumber) {
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length)
       return false;
@@ -204,6 +229,7 @@ public class KnightBoard {
     board[row][col] = 0;
     return true;
   }
+  */
 
 
   public static void main(String[] args) {
