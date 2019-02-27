@@ -2,6 +2,7 @@ public class KnightBoard {
 
   private int[][] board;
   private int[][] moves = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
+  private int[][] opt;
 
   //@throws IllegalArgumentException when either parameter is negative.
   public KnightBoard(int startingRows, int startingCols) {
@@ -10,6 +11,19 @@ public class KnightBoard {
     }
     board = new int[startingRows][startingCols];
     clear();
+    opt = new int[startingRows][startingCols];
+    initialize();
+  }
+
+  private void initialize() {
+    for (int r = 0; r < opt.length; r++) {
+      for (int c = 0; c < opt[0].length; c++) {
+        for (int i = 0; i < moves.length; i++) {
+          if (!(r+moves[i][0] < 0 || r+moves[i][0] >= opt.length || c+moves[i][1] < 0 || c+moves[i][1] >= opt[0].length))
+            opt[r][c]++;
+        }
+      }
+    }
   }
 
   public void clear() {
@@ -33,6 +47,20 @@ public class KnightBoard {
           result += " " + board[r][c] + " ";
         }
         else result += board[r][c] + " ";
+      }
+      result += "\n";
+    }
+    return result;
+  }
+
+  public String optToString() {
+    String result = "";
+    for (int r = 0; r < opt.length; r++) {
+      for (int c = 0; c < opt[0].length; c++) {
+        if (board[r][c] < 10) {
+          result += " " + opt[r][c] + " ";
+        }
+        else result += opt[r][c] + " ";
       }
       result += "\n";
     }
@@ -129,6 +157,7 @@ public class KnightBoard {
     KnightBoard knight = new KnightBoard(5, 5);
     //System.out.println(knight.solve(0, 0));
     //System.out.println(knight);
+    System.out.println(knight.optToString());
     System.out.println(knight.countSolutions(0, 0));
     knight.clear();
     System.out.println(knight.solve(0, 0));
