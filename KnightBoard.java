@@ -26,7 +26,7 @@ public class KnightBoard {
     }
   }
 
-  public void sortMoves(int r, int c) {
+  public int[][] sortMoves(int r, int c) {
     int[][] allMoves = new int[opt[r][c]][2];
     int current = 0;
     for (int i = 0; i < moves.length; i++) {
@@ -35,15 +35,43 @@ public class KnightBoard {
         current++;
       }
     }
-    int temp = 0;
-    for (int i = 1; i < allMoves.length; i++ {
-      temp = opt[r+allMoves[i][0]][c+allMoves[i][1]];
-      while (i > 0 && temp < opt[r+allMoves[i-1][0]][c+allMoves[i-1][1]]) {
+    for (int i = 1; i < allMoves.length; i++) {
+      int[] temp = allMoves[i];
+      while (i > 0 && opt[r+allMoves[i-1][0]][c+allMoves[i-1][1]] > opt[r+temp[0]][c+temp[1]]) {
         allMoves[i] = allMoves[i-1];
         i--;
       }
       allMoves[i] = temp;
     }
+    return allMoves;
+  }
+
+  public boolean solve(int startingRow, int startingCol) {
+    for (int r = 0; r < board.length; r++) {
+      for (int c = 0; c < board[0].length; c++) {
+        if (board[r][c] != 0)
+          throw new IllegalStateException();
+      }
+    }
+    if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length)
+      throw new IllegalArgumentException();
+    return solveH(startingRow, startingCol, 1);
+  }
+
+  //optimized version of solveH.
+  private boolean solveH(int r, int c, int moveNumber) {
+    if (moveNumber == board.length * board[0].length + 1)
+      return true;
+    int[][] outgoingMoves = sortMoves(r, c);
+    for (int i = 0; i < outgoingMoves.length; i++) {
+      board[r][c] = moveNumber;
+      opt[r][c]--;
+      if (solveH(r+outgoingMoves[i][0], c+outgoingMoves[i][1], moveNumber+1))
+        return true;
+      board[r][c] = 0;
+      opt[r][c]++;
+    }
+    return false;
   }
 
   public void clear() {
@@ -95,6 +123,8 @@ public class KnightBoard {
   or out of bounds.
   @returns true when the board is solvable from the specified starting position
   */
+
+  /*
   public boolean solve(int startingRow, int startingCol) {
     for (int r = 0; r < board.length; r++) {
       for (int c = 0; c < board[0].length; c++) {
@@ -107,6 +137,7 @@ public class KnightBoard {
     addKnight(startingRow, startingCol, 1);
     return solveH(startingRow, startingCol, 2);
   }
+  */
 
   /*
   @throws IllegalStateException when the board contains non-zero values.
@@ -140,6 +171,7 @@ public class KnightBoard {
     return numSolutions;
   }
 
+  /*
   private boolean solveH(int row, int col, int moveNumber) {
     if (moveNumber == board.length * board[0].length + 1)
       return true;
@@ -153,6 +185,7 @@ public class KnightBoard {
     }
     return false;
   }
+  */
 
   public boolean addKnight(int row, int col, int moveNumber) {
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length)
